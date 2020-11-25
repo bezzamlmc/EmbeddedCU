@@ -1,0 +1,73 @@
+Notes on symbol placement
+=========================
+
+Location Top segment or Type : Code, Data, Peripheral, Register, None
+Location Sub-segment : Stack, Heap, BSS, Data, const/rodata, None
+Access Permissions  : Read (R), Write (W) Read-write (RW), None
+Lifetime : Function/Block, Program, Indefinite, None
+
+1.
+Question 1
+
+Based on your code and the linker file , specify the following details for the segment, sub-segment, permissions, and lifetime of g1.
+
+Segment/Sub_segment/Permissions/Lifetime
+Segment: 1(code),2(data),3(peripheral),4(register),5(none)
+Sub-Segment: 1(stack),2(heap),3(BSS),4(Data),5(const/rodata),6(none),7(text)
+Permissions:1(read),2(write),3(r/w),4(none)
+Lifetime:1(function/block),2(program),3(indefinite),4(none)
+2332 (good)
+
+
+2.
+Question 2
+
+Based on your code and the linker file , specify the following details for the segment, sub-segment, permissions, and lifetime of g3.
+
+2432 (good)
+
+3.
+Question 3
+
+Based on your code and the linker file , specify the following details for the segment, sub-segment, permissions, and lifetime of g5.
+2432 (good)
+
+4.
+Question 4
+
+Based on your code and the linker file , specify the following details for the segment, sub-segment, permissions, and lifetime of l2 .
+
+2331 (bad)
+
+5.
+Question 5
+
+Based on your code and the linker file , specify the following details for the segment, sub-segment, permissions, and lifetime of *l2 (dereferenced) .
+
+5231 (bad)
+
+6.
+Question 6
+
+Based on your code and the linker file , specify the following details for the segment, sub-segment, permissions, and lifetime of f1.
+5131 (bad)
+
+7.
+Question 7
+
+Based on your code and the linker file , specify the following details for the segment, sub-segment, permissions, and lifetime of f3.
+2431 (bad)
+
+8.
+Question 8
+
+Based on your code and the linker file , specify the following details for the segment, sub-segment, permissions, and lifetime of Hello World! (The string).
+
+2431 (bad)
+
+9.
+Question 9
+
+Based on your code and the linker file , specify the following details for the segment, sub-segment, permissions, and lifetime of func().
+
+1713 (bad)
