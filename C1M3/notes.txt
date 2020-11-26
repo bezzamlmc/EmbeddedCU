@@ -56,7 +56,7 @@ main.c:  l2 = (int *) malloc( N * g2 * sizeof(char) );
 
 Based on your code and the linker file , specify the following details for the segment, sub-segment, permissions, and lifetime of l2 .
 
-2131 (bad)
+2131 (good)
 
 5.
 Question 5
@@ -72,7 +72,7 @@ Based on your code and the linker file , specify the following details for the s
 
 int func(int * f1);
 
-5131 (bad)
+5644 <- 5131 (bad again)
 
 7.
 Question 7
@@ -82,7 +82,7 @@ Based on your code and the linker file , specify the following details for the s
 local initialized variable
 misc.c:  unsigned int f3 = 0;
 
-2132 (bad again)
+2131 (good)
 
 8.
 Question 8
@@ -107,7 +107,7 @@ Based on your code and the linker file , specify the following details for the s
 
 Global variable
 main.c:char g4 = 0;
-2432 (bad)
+2432 (bad again)
 
 3.
 Question 3
@@ -161,3 +161,12 @@ Question 9
 Based on your code and the linker file , specify the following details for the segment, sub-segment, permissions, and lifetime of main().
 
 1712 (good)
+
+5.
+Question 5
+
+Based on your code and the linker file , specify the following details for the segment, sub-segment, permissions, and lifetime of l3.
+
+main.c:  volatile int l3 = 12;
+
+2131 (good)
