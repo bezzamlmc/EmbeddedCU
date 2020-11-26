@@ -39,13 +39,12 @@ main.c:char g3 = 12;
 Question 3
 
 Based on your code and the linker file , specify the following details for the segment, sub-segment, permissions, and lifetime of g5.
-2432 (good)
 
 Global variable
 main.c:extern char g5[N];
 misc.c:int g5[10] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
-misc.c:  *(&g5[0] + f2) = f3;
-misc.c:    g5[f3] = f4[f3];
+
+2432 (good)
 
 
 4.
@@ -64,7 +63,7 @@ Question 5
 
 Based on your code and the linker file , specify the following details for the segment, sub-segment, permissions, and lifetime of *l2 (dereferenced) .
 
-2232 (bad again)
+2232 (bad again and again!)
 
 6.
 Question 6
@@ -73,7 +72,7 @@ Based on your code and the linker file , specify the following details for the s
 
 int func(int * f1);
 
-2131 (bad)
+5131 (bad)
 
 7.
 Question 7
@@ -83,7 +82,7 @@ Based on your code and the linker file , specify the following details for the s
 local initialized variable
 misc.c:  unsigned int f3 = 0;
 
-2131 (bad)
+2132 (bad again)
 
 8.
 Question 8
@@ -92,7 +91,7 @@ Based on your code and the linker file , specify the following details for the s
 
 misc.c:  volatile char * f4 = "Hello World!\n";
 
-2512 (bad again)
+1512 (good)
 
 9.
 Question 9
@@ -101,8 +100,12 @@ Based on your code and the linker file , specify the following details for the s
 
 1712 (good)
 
-2 Based on your code and the linker file , specify the following details for the segment, sub-segment, permissions, and lifetime of g4
+2.
+Question 2 
 
+Based on your code and the linker file , specify the following details for the segment, sub-segment, permissions, and lifetime of g4
+
+Global variable
 main.c:char g4 = 0;
 2432 (bad)
 
@@ -142,3 +145,19 @@ misc.c:  static int f2;
 2432 (bad)
 
 
+1.
+Question 1
+
+Based on your code and the linker file , specify the following details for the segment, sub-segment, permissions, and lifetime of g2.
+
+global
+main.c:const int g2 = 45;
+
+1512 (bad had a typo! Did 1522 by mistake)
+
+9.
+Question 9
+
+Based on your code and the linker file , specify the following details for the segment, sub-segment, permissions, and lifetime of main().
+
+1712 (good)
