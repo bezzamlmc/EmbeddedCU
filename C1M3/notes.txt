@@ -63,7 +63,7 @@ Question 5
 
 Based on your code and the linker file , specify the following details for the segment, sub-segment, permissions, and lifetime of *l2 (dereferenced) .
 
-2232 (bad again and again!)
+try 2233 - 5232<-2232 (bad again and again!)
 
 6.
 Question 6
@@ -72,7 +72,7 @@ Based on your code and the linker file , specify the following details for the s
 
 int func(int * f1);
 
-5644 <- 5131 (bad again)
+try 2131 ==131 == 1111<-5644 <- 5131 (bad again)
 
 7.
 Question 7
@@ -107,7 +107,7 @@ Based on your code and the linker file , specify the following details for the s
 
 Global variable
 main.c:char g4 = 0;
-2432 (bad again)
+try 2332 - 2432 (bad again)
 
 3.
 Question 3
@@ -142,7 +142,7 @@ Question 7
 Based on your code and the linker file , specify the following details for the segment, sub-segment, permissions, and lifetime of f2.
 
 misc.c:  static int f2;
-2432 (bad)
+try 2332 <-2432 (bad)
 
 
 1.
@@ -153,7 +153,7 @@ Based on your code and the linker file , specify the following details for the s
 global
 main.c:const int g2 = 45;
 
-1512 (bad had a typo! Did 1522 by mistake)
+try 1512 (bad had a typo! Did 1522 by mistake)
 
 9.
 Question 9
