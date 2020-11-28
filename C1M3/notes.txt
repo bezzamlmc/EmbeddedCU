@@ -63,7 +63,7 @@ Question 5
 
 Based on your code and the linker file , specify the following details for the segment, sub-segment, permissions, and lifetime of *l2 (dereferenced) .
 
-try 2233 - 5232<-2232 (bad again and again!)
+2233(good) I could argue that indefinite is not right - 5232<-2232 (bad again and again!)
 
 6.
 Question 6
@@ -107,7 +107,7 @@ Based on your code and the linker file , specify the following details for the s
 
 Global variable
 main.c:char g4 = 0;
-try 2332 - 2432 (bad again)
+2332(good) - 2432 (bad again)
 
 3.
 Question 3
@@ -142,7 +142,7 @@ Question 7
 Based on your code and the linker file , specify the following details for the segment, sub-segment, permissions, and lifetime of f2.
 
 misc.c:  static int f2;
-try 2332 <-2432 (bad)
+2332(good) <-2432 (bad)
 
 
 1.
