@@ -1,0 +1,6 @@
+*.bak
+*.map
+*.d
+*.o
+*.out
+*.asm
