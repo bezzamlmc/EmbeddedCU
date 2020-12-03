@@ -1,47 +1,91 @@
+#include <stdio.h>
 #include <math.h>
 #include "data.h"
 
 uint8_t my_itoa(int32_t data, uint8_t * ptr, uint32_t base){
 //NOTE: it is assumed that ptr points to an area in memory large
 //      enough to store the digits
+	printf("LMC data %d\n",data);
 	double dbase = base;
-	double tr;
+	double ddata = data;
+	double tr,ipow;
 	int32_t remd;
 	uint8_t *cptr = ptr;
 	uint8_t sz = sizeof(uint8_t);
 	int32_t len = 0;
+	uint8_t dig;
+	uint8_t sign = 0;
+	if (data < 0) {
+		ddata = -ddata;
+		*cptr = '-';
+		cptr += sz;
+		sign = 1;
+	}
 	if (base == 10) 
 		tr = 1;
 	else
 		tr = log10(dbase);
- 	do {
-		double xlog = log10(dbase)/tr;
-		uint8_t dig = dbase/xlog;
-		remd = dbase - dig*pow(base,xlog);
-		*cptr = ditoa(dig);
-		cptr += sz;
-		len++;
-	}
-	while (remd > base);
-	*cptr = remd;
-	*(cptr + sz) = '\0';
-	len += 2;
-	return len;
+	double xlog = log10(ddata)/tr;
+	printf("LMC xlog %f\n",xlog);
+	double dump = modf(xlog,&ipow);
+	printf("LMC dump %f ipow %f\n",dump,ipow);
+	double dd = pow(base,ipow);
+	dig = ddata/dd;
+	printf("LMC dig %d\n",dig);
+	remd = (int32_t)ddata - dig*dd;
+	printf("LMC remd %d\n",remd);
+	len = (int32_t)ipow + 1;
+	*cptr = ditoa(dig);
+	for (uint8_t i=1; i<len;i++)
+		*(cptr + sz*i) = '0';
+	*(cptr + sz*len) = '\0';
+	while (remd > base) {
+		ddata = (double)remd;
+		double xlog = log10(ddata)/tr;
+		printf("LMC xlog %f\n",xlog);
+		double dump = modf(xlog,&ipow);
+		printf("LMC dump %f ipow %f\n",dump,ipow);
+		double dd = pow(base,ipow);
+		dig = ddata/dd;
+		uint8_t ioff = (uint8_t)ipow;
+		printf("LMC dig %d\n",dig);
+		remd = (int32_t)ddata - dig*dd;
+		printf("LMC remd %d\n",remd);
+		printf("LMC cptr %c\n",*cptr);
+		*(cptr + (len - ioff - 1)*sz) = ditoa(dig);
+	printf("LMC remd %d offset %d\n",remd,len-ioff-1);
+	} 
+	printf("LMC len %d ",len);
+	return (len +sign);
 }
 
 int32_t my_atoi(uint8_t * ptr, uint8_t digits, uint32_t base){
-// NOTE: digits are not validated !!!
+// NOTE: digits are not validated !!! 
+        int8_t sign;
+	uint8_t ibeg;
 	int32_t accum = 0;
 	int32_t pbase = 1;
 	uint8_t sz = sizeof(uint8_t);
 	uint8_t *pcurrent = ptr + sz*(digits-1);
-	for (uint8_t i=0; i<digits; i++) {
+	if (*ptr == '-') {
+		sign = -1;
+		ibeg = 1;
+	}
+	else if (*ptr == '+') {
+		sign = 1;
+		ibeg = 1;
+	}
+	else {
+		sign = 1;
+		ibeg = 0;
+	}
+	for (uint8_t i=ibeg; i<digits; i++) {
 		int32_t idigit = (int32_t)datoi(*pcurrent);
 		accum += pbase*idigit;
 		pbase *= base;
 		pcurrent -= sz;
 	}
-	return accum;
+	return sign*accum;
 }
 
 char ditoa(uint8_t digit)
