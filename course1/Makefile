@@ -50,7 +50,7 @@ FPU = fpv4-sp-d16
 SPECS = nosys.specs
 
 LDFLAGS_COMMON = -Map=$(TARGET).map -lm
-CFLAGS_COMMON = -Wall -Werror -g -O0 -std=c99
+CFLAGS_COMMON = -Wall -g -Werror -O0 -std=c99
 CPPFLAGS_COMMON = -DCOURSE1 -DVERBOSE
 
 #

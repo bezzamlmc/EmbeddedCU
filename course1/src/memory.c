@@ -54,11 +54,11 @@ uint8_t * my_memmove(uint8_t * src, uint8_t * dst, size_t length){
 	long long shift = dst - src;
 	if (shift == 0)
 		return dst;
-	if (dst < src || dst > src + sz*length)
+	if (dst < src || dst >= src + sz*length)
 		return my_memcopy(src, dst, length);
 // memory overlap within interval
-	uint8_t *ptr1 = src + sz*length;
-	uint8_t *ptr2 = dst + sz*length;
+	uint8_t *ptr1 = src + sz*(length-1);
+	uint8_t *ptr2 = dst + sz*(length-1);
 	for (size_t i=0; i< length; i++) {
 		*ptr2 = *ptr1;
 		ptr1 -= sz;
@@ -68,6 +68,12 @@ uint8_t * my_memmove(uint8_t * src, uint8_t * dst, size_t length){
 }
 
 uint8_t * my_memcopy(uint8_t * src, uint8_t * dst, size_t length){
+	size_t sz = sizeof(uint8_t);
+	size_t offset = 0;
+	for(size_t i=0; i<length; i++) {
+		*(dst + offset) = *(src + offset);
+		offset += sz;
+	}
 	return dst;
 }
 
@@ -90,7 +96,7 @@ uint8_t * my_reverse(uint8_t * src, size_t length){
 	size_t l2 = length/2;
 	uint8_t sz = sizeof(uint8_t);
 	uint8_t *ptr1 = src;
-	uint8_t *ptr2 = src + length*sz;
+	uint8_t *ptr2 = src + (length-1)*sz;
 	for (size_t i=0; i<l2; i++) {
 		uint8_t aux = *ptr2;
 		*ptr2 = *ptr1;

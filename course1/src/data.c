@@ -1,62 +1,38 @@
-#include <stdio.h>
 #include <math.h>
 #include "data.h"
+#include "memory.h"
 
 uint8_t my_itoa(int32_t data, uint8_t * ptr, uint32_t base){
 //NOTE: it is assumed that ptr points to an area in memory large
 //      enough to store the digits
-	printf("LMC data %d\n",data);
-	double dbase = base;
-	double ddata = data;
-	double tr,ipow;
-	int32_t remd;
-	uint8_t *cptr = ptr;
 	uint8_t sz = sizeof(uint8_t);
-	int32_t len = 0;
-	uint8_t dig;
+// Handle 0
+	if (data == 0) {
+		*ptr = '0';
+		*(ptr + sz) = '\0';
+		return 1;
+	}
 	uint8_t sign = 0;
+	uint8_t *cptr = ptr;
+	int32_t len = 0;
+	int32_t ddata = data;
 	if (data < 0) {
 		ddata = -ddata;
 		*cptr = '-';
 		cptr += sz;
 		sign = 1;
 	}
-	if (base == 10) 
-		tr = 1;
-	else
-		tr = log10(dbase);
-	double xlog = log10(ddata)/tr;
-	printf("LMC xlog %f\n",xlog);
-	double dump = modf(xlog,&ipow);
-	printf("LMC dump %f ipow %f\n",dump,ipow);
-	double dd = pow(base,ipow);
-	dig = ddata/dd;
-	printf("LMC dig %d\n",dig);
-	remd = (int32_t)ddata - dig*dd;
-	printf("LMC remd %d\n",remd);
-	len = (int32_t)ipow + 1;
-	*cptr = ditoa(dig);
-	for (uint8_t i=1; i<len;i++)
-		*(cptr + sz*i) = '0';
-	*(cptr + sz*len) = '\0';
-	while (remd > base) {
-		ddata = (double)remd;
-		double xlog = log10(ddata)/tr;
-		printf("LMC xlog %f\n",xlog);
-		double dump = modf(xlog,&ipow);
-		printf("LMC dump %f ipow %f\n",dump,ipow);
-		double dd = pow(base,ipow);
-		dig = ddata/dd;
-		uint8_t ioff = (uint8_t)ipow;
-		printf("LMC dig %d\n",dig);
-		remd = (int32_t)ddata - dig*dd;
-		printf("LMC remd %d\n",remd);
-		printf("LMC cptr %c\n",*cptr);
-		*(cptr + (len - ioff - 1)*sz) = ditoa(dig);
-	printf("LMC remd %d offset %d\n",remd,len-ioff-1);
-	} 
-	printf("LMC len %d ",len);
-	return (len +sign);
+	do {
+		uint8_t dig = (uint8_t)(ddata % base); 
+		*cptr = ditoa(dig);
+		cptr += sz;
+		len++;
+		ddata /= base;
+	} while (ddata > 0);
+	*cptr = '\0';
+	cptr = ptr + sign*sz;
+	cptr = my_reverse(cptr,len);
+	return (len+sign);
 }
 
 int32_t my_atoi(uint8_t * ptr, uint8_t digits, uint32_t base){
