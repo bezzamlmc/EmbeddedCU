@@ -25,6 +25,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include "platform.h"
 #include "stats.h"
 
 /* Size of the Data Set */
@@ -39,13 +40,13 @@ void main() {
                               201,   6,  12,  60,   8,   2,   5,  67,
                                 7,  87, 250, 230,  99,   3, 100,  90};
 
-	printf("The unsorted array has %d elements and values:\n",SIZE);
+	PRINTF("The unsorted array has %d elements and values:\n",SIZE);
 	print_array(test, SIZE);
-	printf("\n");
+	PRINTF("\n");
 	print_statistics(test, SIZE);
 //NOTE: decided not implement sort in place
 	unsigned char *sorted = sort(test,SIZE);
-	printf("\nThe sorted array has %d elements and values:\n",SIZE);
+	PRINTF("\nThe sorted array has %d elements and values:\n",SIZE);
 	print_array(sorted,SIZE);
 }
 #endif
@@ -67,21 +68,21 @@ int compare (const void *a, const void *b)
 
 void print_statistics(unsigned char *dataset, const int len)
 {
-	printf("Minimum: %hhu\n",find_minimum(dataset,len));
-	printf("Maximum: %hhu\n",find_maximum(dataset,len));
-	printf("Mean   : %hhu\n",find_mean(dataset,len));
-	printf("Median : %hhu\n",find_median(dataset,len));
+	PRINTF("Minimum: %hhu\n",find_minimum(dataset,len));
+	PRINTF("Maximum: %hhu\n",find_maximum(dataset,len));
+	PRINTF("Mean   : %hhu\n",find_mean(dataset,len));
+	PRINTF("Median : %hhu\n",find_median(dataset,len));
 }
 
 void print_array(unsigned char *dataset, const int len)
 {
 #if defined VERBOSE
 	for(int i=0; i<len; i++) {
-		printf("%d: %hhu",i,dataset[i]);
+		PRINTF("%d: %hhu",i,dataset[i]);
 		if ((i>0 && i%8==0) || i==(len-1))
-			printf("\n");
+			PRINTF("\n");
 		else
-			printf(", ");
+			PRINTF(", ");
 	}
 #endif
 }
@@ -129,6 +130,24 @@ unsigned char *sort(unsigned char *dataset, const int len)
 	unsigned char *sorted_dataset = (unsigned char*)malloc(len*sizeof(unsigned char*));
 	for(int i=0;i<len;i++)
 		sorted_dataset[i] = dataset[i];
+#if defined HOST
 	qsort(sorted_dataset, len, sizeof(unsigned char), compare);
+#else
+	unsigned char aux;
+        unsigned int i = 0;
+
+        while (i<len-1) {
+                if (sorted_dataset[i] < sorted_dataset[i+1]) {
+                        aux = sorted_dataset[i+1];
+                        sorted_dataset[i+1] = sorted_dataset[i];
+                        sorted_dataset[i] = aux;
+                        i = 0;
+                }
+                else {
+                        i++;
+                }
+        }
+#endif
+
 	return sorted_dataset;
 }

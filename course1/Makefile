@@ -49,7 +49,7 @@ FLOAT = hard
 FPU = fpv4-sp-d16
 SPECS = nosys.specs
 
-LDFLAGS_COMMON = -Map=$(TARGET).map -lm
+LDFLAGS_COMMON = -Map=$(TARGET).map
 CFLAGS_COMMON = -Wall -g -Werror -O0 -std=c99
 CPPFLAGS_COMMON = -DCOURSE1 -DVERBOSE
 
